@@ -1,32 +1,30 @@
 package com.example.intentactivity
 
 import android.app.Activity
-import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import com.example.intentactivity.MainActivity.Companion.EXTRA_NAME
-import com.example.intentactivity.ThirdActivity.Companion.EXTRA_ADDRESS
 import com.example.intentactivity.databinding.ActivitySecondBinding
+import com.example.intentactivity.databinding.ActivityThirdBinding
+import androidx.activity.result.contract.ActivityResultContracts
 
 class SecondActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivitySecondBinding
+    private lateinit var binding: ActivitySecondBinding
 
     private val launcher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            result ->
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
 
                 val name = data?.getStringExtra(EXTRA_NAME)
-                val address = data?.getStringExtra(EXTRA_ADDRESS)
+                val address = data?.getStringExtra(ThirdActivity.EXTRA_ADDRESS)
 
-                binding.txtName.text = "Hello $name di $address"
+                if (!name.isNullOrEmpty() && !address.isNullOrEmpty()) {
+                    binding.txtName.text = "Hello $name di $address"
+                }
             }
-            //TODO : add function callback after next page is dismissed
-            //Update txtName dengan alamat dari ThirdActivity
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
